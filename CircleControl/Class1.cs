@@ -102,19 +102,19 @@ namespace CircleControl
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.DrawPath(_circleTrackPen, CreateCircle(1f, e.ClipRectangle));
-            e.Graphics.DrawPath(_drawPen, CreateCircle(Value / MaxValue, e.ClipRectangle));       
+            e.Graphics.DrawPath(_circleTrackPen, CreateCircle(1f, e.ClipRectangle, Boldness));
+            e.Graphics.DrawPath(_drawPen, CreateCircle(Value / MaxValue, e.ClipRectangle, Boldness));       
 
             base.OnPaint(e);
         }
 
-        private GraphicsPath CreateCircle(float fill, Rectangle bounds)
+        public static GraphicsPath CreateCircle(float fill, Rectangle bounds, float boldness)
         {
             
             try
             {
                 RectangleF boundsShrunk = bounds;
-                boundsShrunk.Inflate(Boldness / -2, Boldness / -2);
+                boundsShrunk.Inflate(boldness / -2, boldness / -2);
 
                 if (boundsShrunk.Width < 0)
                 {
