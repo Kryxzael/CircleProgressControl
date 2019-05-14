@@ -110,23 +110,35 @@ namespace CircleControl
 
         private GraphicsPath CreateCircle(float fill, Rectangle bounds)
         {
-            RectangleF boundsShrunk = bounds;
-            boundsShrunk.Inflate(Boldness / -2, Boldness / -2);
-
-            if (boundsShrunk.Width < 0)
+            
+            try
             {
-                bounds.Width = 0;
+                RectangleF boundsShrunk = bounds;
+                boundsShrunk.Inflate(Boldness / -2, Boldness / -2);
+
+                if (boundsShrunk.Width < 0)
+                {
+                    bounds.Width = 0;
+                }
+
+                if (boundsShrunk.Height < 0)
+                {
+                    bounds.Height = 0;
+                }
+
+                GraphicsPath path = new GraphicsPath();
+                path.AddArc(boundsShrunk, -90, fill * 360);
+
+                return path;
             }
 
-            if (boundsShrunk.Height < 0)
+            //This occurs in the preview of visual studio for some reason
+            catch (Exception)
             {
-                bounds.Height = 0;
+                return new GraphicsPath();
             }
 
-            GraphicsPath path =  new GraphicsPath();
-            path.AddArc(boundsShrunk, -90, fill * 360);
 
-            return path;
         }
     }
 }
