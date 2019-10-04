@@ -102,8 +102,8 @@ namespace CircleControl
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.DrawPath(_circleTrackPen, CreateCircle(1f, e.ClipRectangle, Boldness));
-            e.Graphics.DrawPath(_drawPen, CreateCircle(Value / MaxValue, e.ClipRectangle, Boldness));       
+            e.Graphics.DrawPath(_circleTrackPen, CreateCircle(1f, ClientRectangle, Boldness));
+            e.Graphics.DrawPath(_drawPen, CreateCircle(Value / MaxValue, ClientRectangle, Boldness));
 
             base.OnPaint(e);
         }
