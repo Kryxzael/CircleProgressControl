@@ -103,7 +103,19 @@ namespace CircleControl
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             e.Graphics.DrawPath(_circleTrackPen, CreateCircle(1f, ClientRectangle, Boldness));
-            e.Graphics.DrawPath(_drawPen, CreateCircle(Value / MaxValue, ClientRectangle, Boldness));
+
+            Pen localPen = _drawPen.Clone() as Pen;
+            for (int i = 0; i < Value / MaxValue - 1; i++)
+            {
+                //For not to waste resources, only actually draw the last full circle
+                if (i + 1 >= Value / MaxValue - 1)
+                    e.Graphics.DrawPath(localPen, CreateCircle(1f, ClientRectangle, Boldness));
+
+                Color penColor = localPen.Color;
+                localPen.Color = Color.FromArgb(Math.Max(0, penColor.R - 75), Math.Max(0, penColor.G - 75), Math.Max(0, penColor.B - 75));
+            }
+            e.Graphics.DrawPath(localPen, CreateCircle((Value / MaxValue) % 1, ClientRectangle, Boldness));
+            localPen.Dispose();
 
             base.OnPaint(e);
         }
